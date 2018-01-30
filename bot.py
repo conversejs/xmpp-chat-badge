@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+
+
 import sys
 import logging
 import getpass
 from optparse import OptionParser
+from flask import Flask
 
 import sleekxmpp
+
+
+app = Flask(__name__)
 
 # Python versions before 3.0 do not use UTF-8 encoding
 # by default. To ensure that Unicode is handled properly
@@ -51,6 +57,8 @@ class MUCBot(sleekxmpp.ClientXMPP):
         """
         self.get_roster()
         self.send_presence()
+
+    def get_number_of_occupants(self):
         querying_jid = '{}/{}'.format(self.room, self.nick)
         result = self.plugin['xep_0030'].get_info(
             jid=self.room,
@@ -67,9 +75,18 @@ class MUCBot(sleekxmpp.ClientXMPP):
 
         for field in fields:
             if field.get('var') == 'muc#roominfo_occupants':
-                occupants = field.find('{jabber:x:data}value').text
+                return field.find('{jabber:x:data}value').text
+        return 'unknown'
 
-        print(occupants)
+
+def initBOT(jid, password, room, nick):
+    # Set up the MUCBot and register plugins. Note that while plugins may
+    # have interdependencies, the order in which you register them does
+    # not matter.
+    xmpp_client = MUCBot(jid, password, room, nick)
+    xmpp_client.register_plugin('xep_0030') # Service Discovery
+    return xmpp_client
+
 
 if __name__ == '__main__':
     # Set up the command line arguments.
@@ -114,16 +131,22 @@ if __name__ == '__main__':
     if opts.nick is None:
         opts.nick = raw_input("MUC nickname: ")
 
-    # Set up the MUCBot and register plugins. Note that while plugins may
-    # have interdependencies, the order in which you register them does
-    # not matter.
-    xmpp = MUCBot(opts.jid, opts.password, opts.room, opts.nick)
-    xmpp.register_plugin('xep_0030') # Service Discovery
-
+    xmpp_client = initBOT(opts.jid, opts.password, opts.room, opts.nick)
     # Connect to the XMPP server and start processing XMPP stanzas.
-    if xmpp.connect():
-        xmpp.process(block=True)
+    if xmpp_client.connect():
+        xmpp_client.process(block=True)
         print("Done")
     else:
         print("Unable to connect.")
 
+# TODO: enable caching for SleekXMPP
+# TODO: figure out how to make sure get_number_of_occupants is only called after initialization
+# TODO: figure out how to disconnect/cleanup nicely
+
+bot = initBOT('room-occupants-query-bot@conversejs.org', 'aRie9boh', 'discuss@conference.conversejs.org', 'botticelli')
+bot.connect()
+bot.process(block=False)
+
+@app.route("/")
+def hello():
+    return bot.get_number_of_occupants()
