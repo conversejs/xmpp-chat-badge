@@ -6,7 +6,7 @@
 	<path fill="#fe7d37" d="M79 0h109v20H79z"/>
 	<path fill="url(#b)" d="M0 0h188v20H0z"/>
 </g>
-<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110">
+<g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="111">
 	<text x="405" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="690">XMPP Chat</text>
 	<text x="405" y="140" transform="scale(.1)" textLength="690">XMPP Chat</text>
 	<text x="1325" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="990">
@@ -14,16 +14,12 @@
             {{ number }} users online
 		{% elif number == '1' %}
             1 user online
-        {% else %}
-            Chat with us
         {% endif %}</text>
 	<text x="1325" y="140" transform="scale(.1)" textLength="990">
         {% if number and number != '1' %}
             {{ number }} users online
 		{% elif number == '1' %}
             1 user online
-        {% else %}
-            Chat with us
         {% endif %}</text>
 </g>
 </svg>

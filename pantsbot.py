@@ -91,13 +91,11 @@ bot = initBOT(app.config['JID'], app.config['PASSWORD'], app.config['NICK'])
 bot.connect()
 bot.process(block=False)
 
-@app.route("/")
+@app.route("/badge.svg")
 def hello():
     room = request.args.get('room')
     if room is None:
         return abort(400)
     number = bot.get_number_of_occupants(room)
-    if number is not None:
-        return render_template('badge.svg', number=number)
-    return 'Could not determine the number of occupants in the room'
+    return render_template('badge.svg', number=number)
 
