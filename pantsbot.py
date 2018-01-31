@@ -3,11 +3,11 @@
 
 import sys
 from flask import Flask
-from flask import request
 from flask import abort
+from flask import make_response
 from flask import render_template
+from flask import request
 import sleekxmpp
-
 
 app = Flask(__name__)
 app.config.from_pyfile('config.ini', silent=True)
@@ -97,5 +97,7 @@ def hello():
     if room is None:
         return abort(400)
     number = bot.get_number_of_occupants(room)
-    return render_template('badge.svg', number=number, mimetype='text/svg+xml')
-
+    svg = render_template('badge.svg', number=number)
+    response = make_response(svg)
+    response.content_type = 'image/svg+xml'
+    return response
