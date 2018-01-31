@@ -97,5 +97,5 @@ def hello():
     if room is None:
         return abort(400)
     number = bot.get_number_of_occupants(room)
-    return render_template('badge.svg', number=number)
+    return render_template('badge.svg', number=number, mimetype='text/svg+xml')
 
