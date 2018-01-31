@@ -100,4 +100,5 @@ def hello():
     svg = render_template('badge.svg', number=number)
     response = make_response(svg)
     response.content_type = 'image/svg+xml'
+    response.cache_control.max_age = 60
     return response
