@@ -10,4 +10,6 @@ Creates a badge linking to an XMPP chat room, like so:
     virtualenv -p python3 xmpp-chat-badge
     cd xmpp-chat-badge
     pip install -r requirements.txt
+    cp config.ini.default config.ini
+    # Edit config.ini to add the login details for the bot
     make serve
