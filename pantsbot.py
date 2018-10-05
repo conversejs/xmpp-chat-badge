@@ -10,7 +10,8 @@ from flask import request
 import sleekxmpp
 
 app = Flask(__name__)
-app.config.from_pyfile('config.ini', silent=True)
+app.config.from_envvar("XMPP_CHAT_BADGE_CONFIG")
+
 
 # Python versions before 3.0 do not use UTF-8 encoding
 # by default. To ensure that Unicode is handled properly
