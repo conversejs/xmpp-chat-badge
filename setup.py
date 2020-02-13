@@ -11,7 +11,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 install_requires = [
-    'flask~=0.12',
+    'flask>=0.12,<2.0',
     'sleekxmpp~=1.3.1'
 ]
 
