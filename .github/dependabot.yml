@@ -1,0 +1,22 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: prompt-toolkit
+    versions:
+    - 3.0.14
+    - 3.0.15
+    - 3.0.16
+    - 3.0.17
+  - dependency-name: ipython
+    versions:
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+  - dependency-name: jinja2
+    versions:
+    - 2.10.1
